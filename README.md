@@ -283,11 +283,31 @@ Refinements made:
 
 Here are screenshots showing the interactive API documentation and a sample request in Postman.
 
-Extraction Endpoints (/extract_from_...)
-Normalization Endpoint (/normalize)
-Summarization Endpoint (/summarize)
-Full Pipeline - Process from Text (/process_report_from_text)
-Full Pipeline - Process from Image (/process_report_from_image)
+## Screenshots
+
+This section provides screenshots of sample responses from the various API endpoints.
+
+### Extraction Endpoints (/extract_from_...)
+![Result from Extract from Image endpoint (1)](docs/extract_from_image_one.jpg)
+![Result from Extract from Image endpoint (2)](docs/extract_from_image_two.jpg)
+![Result from Extract from Text endpoint](docs/extract_from_text.jpg)
+
+### Normalization Endpoint (/normalize)
+![Result from Normalization endpoint (1)](docs/normalize_one.jpg)
+![Result from Normalization endpoint (2)](docs/normalize_two.jpg)
+
+### Summarization Endpoint (/summarize)
+![Result from Summarization endpoint](docs/summarize.jpg)
+
+### Full Pipeline - Process from Text (/process_report_from_text)
+![Full pipeline result from text input (1)](docs/process_report_from_text_one.jpg)
+![Full pipeline result from text input (2)](docs/process_report_from_text_two.jpg)
+
+### Full Pipeline - Process from Image (/process_report_from_image)
+![Full pipeline result from image input (1)](docs/process_report_from_image_one.jpg)
+![Full pipeline result from image input (2)](docs/process_report_from_image_two.jpg)
+![Full pipeline result from image input (3)](docs/process_report_from_image_three.jpg)
+![Full pipeline result from image input (4)](docs/process_report_from_image_four.jpg)
 -----
 
 ## Development
