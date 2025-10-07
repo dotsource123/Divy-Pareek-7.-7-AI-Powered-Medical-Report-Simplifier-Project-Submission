@@ -4,6 +4,8 @@ Of course. Here is the updated documentation with your requested additions.
 
 ☁️ **Live Demo URL**: [https://medical-report-simplifier-latest.onrender.com/](https://medical-report-simplifier-latest.onrender.com/)
 
+Demonstration Video Link : https://drive.google.com/file/d/1L7M5Ki7h3oRoSpSA6eknfIok8R29bIT0/view?usp=drive_link
+
 A FastAPI service that extracts, normalizes, guardrails, and summarizes medical lab reports from images or raw text using Tesseract OCR and Google Gemini.
 
 ### Key Features
@@ -319,3 +321,28 @@ Use your preferred linters/formatters. Ensure imports and types are clean.
 ### Running tests
 
 If/when tests are added, run via `pytest`.
+
+# Potential Improvements
+
+This project provides a solid foundation for a medical report simplifier. Here are some potential features and enhancements that could be added in the future:
+
+* **Enhanced OCR Accuracy**
+    Integrate a more advanced, cloud-based OCR service like **Google Cloud Vision** or **AWS Textract**. These services are often more accurate than Tesseract, especially for documents with complex layouts or handwriting.
+
+* **Asynchronous Task Processing**
+    For large reports or slow OCR jobs, the current synchronous API endpoints could time out. Implementing a task queue like `Celery` with a message broker (e.g., `Redis` or `RabbitMQ`) would allow for asynchronous background processing. The API could immediately return a `job_id`, and the user could poll a status endpoint to get the results later.
+
+* **Database Integration**
+    Add a database (e.g., `PostgreSQL` with `SQLAlchemy`) to store user information, upload history, and the processed results. This would allow users to view their past reports.
+
+* **User Authentication**
+    Implement an authentication system (e.g., `OAuth2` with `JWT` tokens) to secure the API, manage users, and ensure that medical data remains private.
+
+* **Comprehensive Test Suite**
+    Develop a full suite of unit and integration tests using a framework like `pytest`. This would ensure the reliability of the services and endpoints as the application grows.
+
+* **Advanced Data Extraction**
+    For extremely varied or complex report formats, the prompt-based extraction could be supplemented by training a custom **Named Entity Recognition (NER)** model to more reliably identify test names, values, and units from unstructured text.
+
+* **Frontend Application**
+    Build a user-friendly frontend using a framework like **React** or **Vue.js**. This would provide a complete web application where users can create accounts, upload their report files, and view the simplified results in a clean interface.
