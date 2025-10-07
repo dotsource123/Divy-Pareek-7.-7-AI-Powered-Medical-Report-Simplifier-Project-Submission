@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pytesseract
+Pillow
+google-generativeai
+pydantic-settings
+fuzzywuzzy
+python-Levenshtein
