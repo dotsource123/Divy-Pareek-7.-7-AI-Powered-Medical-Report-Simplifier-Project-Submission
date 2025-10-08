@@ -257,12 +257,31 @@ curl -X POST "http://localhost:8000/api/v1/process_report_from_image" \
 ## Prompts Used (Summarized)
 
   - **Extraction (`extract_raw_tests_from_text`)**
+       - Actual Prompt : prompt = f"""
+        You are a highly accurate medical data extraction assistant. Analyze the provided text from a medical lab report.
+        Your Tasks:
+        1. [cite_start]Identify and pull out every line that contains a medical test, its value, unit, and status. [cite: 8]
+        2. [cite_start]Correct obvious OCR typos in test names (e.g., 'Hemglobin' becomes 'Hemoglobin', 'Hgh' becomes 'High'). [cite: 5, 8]
+        Output Format:
+        Return a JSON object with two keys: "tests_raw" (a list of corrected strings) and "confidence" (a float from 0.0 to 1.0).
+        Report Text: --- {text} ---
+        """
 
       - Role: medical data extraction assistant
       - Tasks: identify lines containing test, value, unit, status; correct OCR typos
       - Output: `{ "tests_raw": string[], "confidence": number }`
 
   - **Normalization (`normalize_tests`)**
+      - Actual Prompt : prompt = f"""
+        You are a medical data normalization expert. Convert the following list of raw test strings into a structured JSON array.
+        For each string, create a JSON object with these keys: "name", "value" (numeric), "unit", "status" ("low", "high", or "normal"), and "ref_range" (an object with "low" and "high" values).
+
+        **Important rule: For every test, you MUST provide a standard reference range based on common medical knowledge for an adult. IGNORE any reference ranges that may be present in the input strings and use your own standard values instead.**
+
+        Input: {json.dumps(raw_tests)}
+        Output Format:
+        Return a JSON object with two keys: "tests" (the array of structured test objects) and "normalization_confidence" (your confidence score as a float).
+        """
 
       - Role: medical data normalization expert
       - Tasks: map to `{ name, value, unit, status, ref_range }`
@@ -270,7 +289,16 @@ curl -X POST "http://localhost:8000/api/v1/process_report_from_image" \
       - Output: `{ "tests": Test[], "normalization_confidence": number }`
 
   - **Summary (`generate_patient_summary`)**
+      - Actual Prompt: prompt = f"""
+        You are a helpful medical assistant. **Do not provide a diagnosis or medical advice.**
+        Based on the provided JSON of lab results, generate a simple summary and one-sentence explanations for any results marked "low" or "high".
 
+        **Output ONLY a valid JSON object with two keys:**
+        **1. "summary": A single string summarizing the main findings.**
+        **2. "explanations": A JSON array containing ONLY simple strings. Each string should be a one-sentence explanation for an abnormal test. Do not use objects or key-value pairs within this array.**
+
+      Input: {json.dumps(normalized_tests)}
+      """
       - Rule: no diagnosis/medical advice
       - Output: JSON with `summary` and array `explanations` (strings only)
 
@@ -278,7 +306,6 @@ Refinements made:
 
   - Added explicit JSON-only outputs and code to strip markdown fences.
   - Introduced guardrail with exact+fuzzy matching and count tolerance.
-
 -----
 
 ## Screenshots
